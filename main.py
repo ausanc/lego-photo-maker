@@ -1,3 +1,4 @@
+import sys
 from PIL import Image
 
 
@@ -18,10 +19,13 @@ def convert_to_lego_colors(min_image):
 
 
 def main():
-    image = Image.open("testimg.jpg")
-    image = create_minimised_image(image)
-    image = min_to_template(image)
-    image.save("output.jpg")
+    if len(sys.argv) > 1:
+        image = Image.open("testimg.jpg")
+        image = create_minimised_image(image)
+        image = min_to_template(image)
+        image.save("output.jpg")
+    else:
+        print("No argument supplied.")
 
 
 if __name__ == '__main__':
