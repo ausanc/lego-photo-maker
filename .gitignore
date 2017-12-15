@@ -152,3 +152,7 @@ crashlytics-build.properties
 fabric.properties
 
 .idea/*
+
+# Test Images
+*.jpg
+*.png
