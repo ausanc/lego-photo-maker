@@ -1,6 +1,10 @@
 import sys
 from PIL import Image
 
+# TODO: count number of 1x1s needed
+# TODO: return bricklink xml
+# TODO: fix lego color image colors to match proper bleys
+
 
 # convert an input image into a minimised greyscale image
 def create_minimised_image(input_image):
