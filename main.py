@@ -13,15 +13,37 @@ def min_to_template(min_image):
     return min_image.resize((480, 480), Image.NEAREST)  # placeholder
 
 
-# TODO: convert a greyscale minimised image to the lego colour palette
+# TODO: replace this with something which doesn't suck
+def get_lego_color(color):
+    # F2F3F2, A3A2A4, 635F61, 1B2A34
+    # greyscale: 242, 162, 96, 38
+    # mid-points: 202, 129, 67
+    if color > 202:
+        return 242
+    elif color > 129:
+        return 162
+    elif color > 67:
+        return 96
+    else:
+        return 38
+
+
+# convert a greyscale minimised image to the lego colour palette
 def convert_to_lego_colors(min_image):
-    pass
+    width, height = min_image.size
+    converted = Image.new('RGB', (width, height))
+    for h in range(height):
+        for w in range(width):
+            c = get_lego_color(min_image.getpixel((w, h)))
+            converted.putpixel((w, h), (c, c, c))
+    return converted
 
 
 def main():
     if len(sys.argv) > 1:
-        image = Image.open("testimg.jpg")
+        image = Image.open(sys.argv[1])
         image = create_minimised_image(image)
+        image = convert_to_lego_colors(image)
         image = min_to_template(image)
         image.save("output.jpg")
     else:
