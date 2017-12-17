@@ -34,22 +34,25 @@ def get_lego_color(color):
 
 # convert a greyscale minimised image to the lego colour palette
 def convert_to_lego_colors(min_image):
+    counters = {"242": 0, "162": 0, "96": 0, "38": 0}
     width, height = min_image.size
     converted = Image.new('RGB', (width, height))
     for h in range(height):
         for w in range(width):
             c = get_lego_color(min_image.getpixel((w, h)))
+            counters[str(c)] = counters[str(c)] + 1
             converted.putpixel((w, h), (c, c, c))
-    return converted
+    return converted, counters
 
 
 def main():
     if len(sys.argv) > 1:
         image = Image.open(sys.argv[1])
         image = create_minimised_image(image)
-        image = convert_to_lego_colors(image)
+        image, counters = convert_to_lego_colors(image)
         image = min_to_template(image)
         image.save("output.jpg")
+        print(counters)
     else:
         print("No argument supplied.")
 
