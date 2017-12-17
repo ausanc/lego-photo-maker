@@ -1,9 +1,11 @@
 import sys
 from PIL import Image
 
-# TODO: return bricklink xml
-# TODO: fix lego color image colors to match proper bleys
+# TODO: fix output image colors to match proper lego colors
 # TODO: crop input images to square
+# TODO: export options: baseplate, tiles instead of plates
+# TODO: saturation option
+# TODO: simple background removal somehow and replace with yellow studs
 
 
 # convert an input image into a minimised greyscale image
