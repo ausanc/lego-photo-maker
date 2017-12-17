@@ -1,9 +1,9 @@
 import sys
 from PIL import Image
 
-# TODO: count number of 1x1s needed
 # TODO: return bricklink xml
 # TODO: fix lego color image colors to match proper bleys
+# TODO: crop input images to square
 
 
 # convert an input image into a minimised greyscale image
@@ -52,6 +52,18 @@ def main():
         image, counters = convert_to_lego_colors(image)
         image = min_to_template(image)
         image.save("output.jpg")
+
+        template_counters = {"white": str(counters["242"]),
+        "lbley": str(counters["162"]),
+        "dbley": str(counters["96"]),
+        "black": str(counters["38"])}
+
+        with open("template.xml", "r") as f:
+            template = f.read().format(**template_counters)
+            print(template)
+            with open("output.xml", "w") as o:
+                o.write(template)
+
         print(counters)
     else:
         print("No argument supplied.")
