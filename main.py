@@ -47,9 +47,20 @@ def convert_to_lego_colors(min_image):
     return converted, counters
 
 
+# crop an image to square, centered on the middle of the image
+def crop_to_square(image):
+    width, height = image.size
+    shortest = min(width, height)
+    h_crop = int((width - shortest) / 2)
+    v_crop = int((height - shortest) / 2)
+    print((h_crop, v_crop, width - h_crop, height - v_crop))
+    return image.crop((h_crop, v_crop, width - h_crop, height - v_crop))
+
+
 def main():
     if len(sys.argv) > 1:
         image = Image.open(sys.argv[1])
+        image = crop_to_square(image)
         image = create_minimised_image(image)
         image, counters = convert_to_lego_colors(image)
         image = min_to_template(image)
