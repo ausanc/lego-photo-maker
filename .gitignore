@@ -156,3 +156,4 @@ fabric.properties
 # Test Images
 *.jpg
 *.png
+output.xml

@@ -3,6 +3,7 @@ A tool to generate Lego versions of photographs, based on Lego's Mosaic Maker fr
 
 ## Converting an image
 Currently, it converts an image to Lego greyscale (White, Light Bluish Grey, Dark Bluish Grey, Black).
+If a non-square image is supplied, it is automatically cropped, centered on the middle of the image.
 The converted image is saved as `output.jpg`, and corresponding [bricklink xml](https://www.bricklink.com/help.asp?helpID=207) is saved as `output.xml`.
 
 ## Command line arguments
