@@ -1,3 +1,4 @@
+import argparse
 import sys
 from PIL import Image
 
@@ -53,33 +54,30 @@ def crop_to_square(image):
     shortest = min(width, height)
     h_crop = int((width - shortest) / 2)
     v_crop = int((height - shortest) / 2)
-    print((h_crop, v_crop, width - h_crop, height - v_crop))
     return image.crop((h_crop, v_crop, width - h_crop, height - v_crop))
 
 
 def main():
-    if len(sys.argv) > 1:
-        image = Image.open(sys.argv[1])
-        image = crop_to_square(image)
-        image = create_minimised_image(image)
-        image, counters = convert_to_lego_colors(image)
-        image = min_to_template(image)
-        image.save("output.jpg")
+    parser = argparse.ArgumentParser(description='Convert images to Lego greyscale images.')
+    parser.add_argument('image', help='the image to be converted')
+    args = parser.parse_args()
 
-        template_counters = {"white": str(counters["242"]),
-        "lbley": str(counters["162"]),
-        "dbley": str(counters["96"]),
-        "black": str(counters["38"])}
+    image = Image.open(args.image)
+    image = crop_to_square(image)
+    image = create_minimised_image(image)
+    image, counters = convert_to_lego_colors(image)
+    image = min_to_template(image)
+    image.save("output.jpg")
 
-        with open("template.xml", "r") as f:
-            template = f.read().format(**template_counters)
-            print(template)
-            with open("output.xml", "w") as o:
-                o.write(template)
+    template_counters = {"white": str(counters["242"]),
+    "lbley": str(counters["162"]),
+    "dbley": str(counters["96"]),
+    "black": str(counters["38"])}
 
-        print(counters)
-    else:
-        print("No argument supplied.")
+    with open("template.xml", "r") as f:
+        template = f.read().format(**template_counters)
+        with open("output.xml", "w") as o:
+            o.write(template)
 
 
 if __name__ == '__main__':
