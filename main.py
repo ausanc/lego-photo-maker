@@ -60,6 +60,10 @@ def crop_to_square(image):
     return image.crop((h_crop, v_crop, width - h_crop, height - v_crop))
 
 
+def hex_to_rgb(hex):
+    return tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+
+
 def main():
     parser = argparse.ArgumentParser(description='Convert images to Lego greyscale images.')
     parser.add_argument('image', help='the image to be converted')
@@ -69,6 +73,30 @@ def main():
                          "lbley": (163, 162, 164),
                          "dbley": (99, 95, 97),
                          "black": (27, 42, 52)}
+
+    # http://lego.wikia.com/wiki/Colour_Palette
+    # http://www.peeron.com/cgi-bin/invcgis/inv/colors
+    main_palette = {"white":        hex_to_rgb('F2F3F2'),  # 1
+                    "nougat":       hex_to_rgb('CC8E68'),  # 18
+                    "red":          hex_to_rgb('C4281B'),  # 21
+                    "blue":         hex_to_rgb('0D69AB'),  # 23
+                    "yellow":       hex_to_rgb('F5CD2F'),  # 24
+                    "black":        hex_to_rgb('1B2A34'),  # 26
+                    "green":        hex_to_rgb('287F46'),  # 28
+                    "bright green": hex_to_rgb('4B974A'),  # 37
+                    "orange":       hex_to_rgb('DA8540'),  # 106
+                    "teal":         hex_to_rgb('008F9B'),  # 107
+                    "lime":         hex_to_rgb('A4BD46'),  # 119
+                    "magenta":      hex_to_rgb('923978'),  # 124
+                    "sand blue":    hex_to_rgb('74869C'),  # 135
+                    "dark blue":    hex_to_rgb('203A56'),  # 140
+                    "dark green":   hex_to_rgb('27462C'),  # 141
+                    "sand green":   hex_to_rgb('789081'),  # 151
+                    "dark red":     hex_to_rgb('7B2E2F'),  # 154
+                    "reddish brown":hex_to_rgb('694027'),  # 192
+                    "light grey":   hex_to_rgb('A3A2A4'),  # 194
+                    "dark grey":    hex_to_rgb('635F61'),  # 199
+                    }
 
     image = Image.open(args.image)
     image = crop_to_square(image)
