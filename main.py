@@ -7,20 +7,21 @@ from PIL import Image
 # TODO: export options: baseplate, tiles instead of plates
 # TODO: saturation option
 # TODO: simple background removal somehow and replace with yellow studs
+# TODO: create a template for building from a minimised image
 
 
-# convert an input image into a minimised image
 def create_minimised_image(image):
+    """Convert an input image into a minimised image and return it."""
     return image.resize((48, 48))
 
 
-# TODO: create a template for building from a minimised image
 def min_to_template(min_image):
+    """Create a scaled up version of the 48x48 image and return it."""
     return min_image.resize((480, 480), Image.NEAREST)  # placeholder
 
 
-# takes an image and converts it to be in the provided palette
 def convert_image_to_palette(image, palette):
+    """Takes an image and converts it to be in the provided palette."""
     width, height = image.size
     rgb_colors = {}
     for key in palette.keys():
@@ -51,8 +52,8 @@ def convert_image_to_palette(image, palette):
     return converted, counters
 
 
-# crop an image to square, centered on the middle of the image
 def crop_to_square(image):
+    """Crop an image to square, centered on the middle of the image, and return it."""
     width, height = image.size
     shortest = min(width, height)
     h_crop = int((width - shortest) / 2)
@@ -61,6 +62,7 @@ def crop_to_square(image):
 
 
 def hex_to_rgb(hex):
+    """Convert a hex string to an rgb int tuple and return it."""
     return tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
 
 
@@ -69,34 +71,37 @@ def main():
     parser.add_argument('image', help='the image to be converted')
     args = parser.parse_args()
 
-    greyscale_palette = {"white": (242, 243, 242),
-                         "lbley": (163, 162, 164),
-                         "dbley": (99, 95, 97),
-                         "black": (27, 42, 52)}
+    greyscale_palette = {
+        "white": (242, 243, 242),
+        "lbley": (163, 162, 164),
+        "dbley": (99, 95, 97),
+        "black": (27, 42, 52)
+    }
 
     # http://lego.wikia.com/wiki/Colour_Palette
     # http://www.peeron.com/cgi-bin/invcgis/inv/colors
-    main_palette = {"white":        hex_to_rgb('F2F3F2'),  # 1
-                    "nougat":       hex_to_rgb('CC8E68'),  # 18
-                    "red":          hex_to_rgb('C4281B'),  # 21
-                    "blue":         hex_to_rgb('0D69AB'),  # 23
-                    "yellow":       hex_to_rgb('F5CD2F'),  # 24
-                    "black":        hex_to_rgb('1B2A34'),  # 26
-                    "green":        hex_to_rgb('287F46'),  # 28
-                    "bright green": hex_to_rgb('4B974A'),  # 37
-                    "orange":       hex_to_rgb('DA8540'),  # 106
-                    "teal":         hex_to_rgb('008F9B'),  # 107
-                    "lime":         hex_to_rgb('A4BD46'),  # 119
-                    "magenta":      hex_to_rgb('923978'),  # 124
-                    "sand blue":    hex_to_rgb('74869C'),  # 135
-                    "dark blue":    hex_to_rgb('203A56'),  # 140
-                    "dark green":   hex_to_rgb('27462C'),  # 141
-                    "sand green":   hex_to_rgb('789081'),  # 151
-                    "dark red":     hex_to_rgb('7B2E2F'),  # 154
-                    "reddish brown":hex_to_rgb('694027'),  # 192
-                    "light grey":   hex_to_rgb('A3A2A4'),  # 194
-                    "dark grey":    hex_to_rgb('635F61'),  # 199
-                    }
+    main_palette = {
+        "white":         hex_to_rgb('F2F3F2'),  # 1
+        "nougat":        hex_to_rgb('CC8E68'),  # 18
+        "red":           hex_to_rgb('C4281B'),  # 21
+        "blue":          hex_to_rgb('0D69AB'),  # 23
+        "yellow":        hex_to_rgb('F5CD2F'),  # 24
+        "black":         hex_to_rgb('1B2A34'),  # 26
+        "green":         hex_to_rgb('287F46'),  # 28
+        "bright green":  hex_to_rgb('4B974A'),  # 37
+        "orange":        hex_to_rgb('DA8540'),  # 106
+        "teal":          hex_to_rgb('008F9B'),  # 107
+        "lime":          hex_to_rgb('A4BD46'),  # 119
+        "magenta":       hex_to_rgb('923978'),  # 124
+        "sand blue":     hex_to_rgb('74869C'),  # 135
+        "dark blue":     hex_to_rgb('203A56'),  # 140
+        "dark green":    hex_to_rgb('27462C'),  # 141
+        "sand green":    hex_to_rgb('789081'),  # 151
+        "dark red":      hex_to_rgb('7B2E2F'),  # 154
+        "reddish brown": hex_to_rgb('694027'),  # 192
+        "light grey":    hex_to_rgb('A3A2A4'),  # 194
+        "dark grey":     hex_to_rgb('635F61'),  # 199
+    }
 
     image = Image.open(args.image)
     image = crop_to_square(image)
